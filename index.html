@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Lightwave - Immerse the Crowd</title>
+		<style>
+			body {
+				overflow: hidden;
+				margin: 0;
+			}
+			.canvas-container {
+				width: 100%;
+				height: 100%;
+				margin: 0px;
+			}
+		</style>
+		<script src="visualization.js"></script>
+		<script src="index.js"></script>
+	</head>
+	<body>
+		<div class="canvas-container">
+			<canvas id="screenshot-rgb" ></canvas>
+		</div>
+		<video style="display: none;" id="screenshot-video" autoplay></video>
+		<!-- <img style="display: none;" id="screenshot-img" src=""> -->
+		<canvas style="display: none;" id="screenshot-canvas"></canvas>
+	</body>
+</html>
