@@ -18,8 +18,8 @@ function updateVisualizationSize() {
   const windowWidth = window.innerWidth;
   canvasRGB.width = windowWidth;
   canvasRGB.height = windowHeight;
-  canvasRGBContext.width = windowWidth;
-  canvasRGBContext.height = windowHeight;
+  canvasRGBVContext.width = windowWidth;
+  canvasRGBVContext.height = windowHeight;
 
   const currentFIFOLength = rGBFIFO.length;
   const newFIFOLength = Math.floor(windowWidth / 60 * multiplier);
@@ -40,19 +40,24 @@ function updateRGBFIFO(RGB, volume) {
 }
 
 function renderRectColor() {
-  const width = canvasRGBContext.width;
-  const height = canvasRGBContext.height;
+  const width = canvasRGBVContext.width;
+  const height = canvasRGBVContext.height;
 
+  // clear the background
+  canvasRGBVContext.clearRect(0, 0, width, height);
   for (let i = 0; i < rGBFIFO.length; i++) {
-    // clear the background
-    canvasRGBContext.clearRect(i * width / rGBFIFO.length, 0, width / rGBFIFO.length, height);
 
-    // TOOD: Make the height encoded as the loudness
-    const RGB = rGBFIFO[i] || {};
-    canvasRGBContext.fillStyle = `rgb(${RGB.r},${RGB.g},${RGB.b})`;
+    const RGBV = rGBFIFO[i] || {};
+    const barWidth = width / rGBFIFO.length;
+    const barX = i * barWidth;
+    const barY = height / 2;
+    const barHeight = height * RGBV.volume * 1.4;
+    canvasRGBVContext.fillStyle = `rgb(${RGBV.r},${RGBV.g},${RGBV.b})`;
 
-    // draw a bar based on the current volume
-    canvasRGBContext.fillRect(i * width / rGBFIFO.length, 0, width / rGBFIFO.length, height * RGB.volume * 1.4);
+    // draw top bar based on the current volume
+    canvasRGBVContext.fillRect(barX, barY, barWidth, -barHeight);
+    // draw bottom bar based on the current volume
+    canvasRGBVContext.fillRect(barX, barY, barWidth, barHeight);
   }
 }
 

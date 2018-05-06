@@ -2,7 +2,7 @@ let img = null;
 let video = null;
 let canvas = null;
 let canvasRGB = null;
-let canvasRGBContext = null;
+let canvasRGBVContext = null;
 let audioContext = null;
 let mediaStreamSource = null;
 const defaultRGB = {r: 255, g: 255, b: 255};
@@ -14,7 +14,7 @@ window.onload = () => {
   // Get the contexts
   audioContext = new(window.AudioContext || window.webkitAudioContext)();
   canvasRGB = document.querySelector('#screenshot-rgb');
-  canvasRGBContext = canvasRGB.getContext('2d');
+  canvasRGBVContext = canvasRGB.getContext('2d');
   canvas = document.querySelector('#screenshot-canvas');
   canvasContext = canvas.getContext('2d');
   img = document.querySelector('#screenshot-img');
