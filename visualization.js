@@ -9,7 +9,7 @@ function updateResources() {
   // const rawData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
 
   updateVisualizationSize();
-  updateRGBFIFO(averageRGB);
+  updateRGBFIFO(averageRGB, meter.volume);
   renderRectColor(averageRGB);
 }
 
@@ -22,7 +22,7 @@ function updateVisualizationSize() {
   canvasRGBContext.height = windowHeight;
 
   const currentFIFOLength = rGBFIFO.length;
-  const newFIFOLength = Math.round(windowWidth / 60 * multiplier);
+  const newFIFOLength = Math.floor(windowWidth / 60 * multiplier);
   if (newFIFOLength > currentFIFOLength) {
     for (let i = 0; i < newFIFOLength - currentFIFOLength; i++) {
       rGBFIFO.unshift(rGBFIFO[0]);
@@ -34,8 +34,8 @@ function updateVisualizationSize() {
   }
 }
 
-function updateRGBFIFO(RGB) {
-  rGBFIFO.push(RGB);
+function updateRGBFIFO(RGB, volume) {
+  rGBFIFO.push({...RGB, volume});
   rGBFIFO.shift();
 }
 
@@ -52,7 +52,7 @@ function renderRectColor() {
     canvasRGBContext.fillStyle = `rgb(${RGB.r},${RGB.g},${RGB.b})`;
 
     // draw a bar based on the current volume
-    canvasRGBContext.fillRect(i * width / rGBFIFO.length, 0, width / rGBFIFO.length, height);
+    canvasRGBContext.fillRect(i * width / rGBFIFO.length, 0, width / rGBFIFO.length, height * RGB.volume * 1.4);
   }
 }
 

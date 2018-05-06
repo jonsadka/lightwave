@@ -3,13 +3,16 @@ let video = null;
 let canvas = null;
 let canvasRGB = null;
 let canvasRGBContext = null;
+let audioContext = null;
+let mediaStreamSource = null;
 const defaultRGB = {r: 255, g: 255, b: 255};
 let rGBFIFO = new Array(10).fill(defaultRGB);
 const multiplier = 1;
 const fps = 64 * multiplier * 2;
 
 window.onload = () => {
-  // Get the canvas context
+  // Get the contexts
+  audioContext = new(window.AudioContext || window.webkitAudioContext)();
   canvasRGB = document.querySelector('#screenshot-rgb');
   canvasRGBContext = canvasRGB.getContext('2d');
   canvas = document.querySelector('#screenshot-canvas');
@@ -17,10 +20,17 @@ window.onload = () => {
   img = document.querySelector('#screenshot-img');
   video = document.querySelector('#screenshot-video');
 
+  // After giving permission and refreshing the page, some
+  // browsers will require user interaction to enable this restart
+  // the audio recording
+  if (audioContext.state === 'suspended') {
+    document.querySelector('#resume-button').style.display = 'inherit';
+  }
+
   const streamOptions = {
-    audio: false,
+    audio: true,
     video: {
-      facingMode: "user"
+      facingMode: "environment"
     }
   };
 
@@ -40,7 +50,7 @@ function getStream(streamOptions) {
     navigator.mediaDevices.getUserMedia = (constraints) => {
 
       // First get ahold of the legacy getUserMedia, if present
-      const getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+      const getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
       // Some browsers just don't implement it - return a rejected promise with an error
       // to keep a consistent interface
@@ -64,14 +74,32 @@ function handleStreamError(err) {
   console.log(err.name + ": " + err.message);
 }
 
-function handleStreamSuccess(stream) {
+// https: //developer.mozilla.org/en-US/docs/Web/API/MediaStream
+function handleStreamSuccess(mediaStream) {
+  //
+  //////// VIDEO
+  //
   // Older browsers may not have srcObject
   if ("srcObject" in video) {
-    video.srcObject = stream;
+    video.srcObject = mediaStream;
   } else {
     // Avoid using this in new browsers, as it is going away.
-    video.src = window.URL.createObjectURL(stream);
+    video.src = window.URL.createObjectURL(mediaStream);
   }
 
+  //
+  //////// AUDIO
+  //
+  // Create an AudioNode from the stream.
+  mediaStreamSource = audioContext.createMediaStreamSource(mediaStream);
+  // Create a new volume meter and connect it.
+  meter = createAudioMeter(audioContext);
+  mediaStreamSource.connect(meter);
+
   setInterval(updateResources, 1000 / fps);
+}
+
+function resumeAudio() {
+  document.querySelector('#resume-button').style.display = 'none';
+  audioContext.resume();
 }
