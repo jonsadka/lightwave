@@ -18,14 +18,18 @@
 				height: 100%;
 				margin: 0px;
 			}
- 			button {
+			#resume-toggle {
+				position: fixed;
+				display: none;
+				top: calc(50% - 46px);
+				left: calc(50% - 116px);
+			}
+			button {
 				border: none;
 				background: none;
 				position: fixed;
  				font-family: 'Montserrat', sans-serif;
 				font-size: 72px;
- 				top: calc(50% - 46px);
- 				left: calc(50% - 116px);
 			}
 			.logo {
 				fill: #3C4145;
@@ -85,7 +89,7 @@
 			</label>
 		</div>
 
-		<div id="resume-toggle" style="position: fixed; top: 0; display: none;">
+		<div id="resume-toggle">
 			<button onclick="resumeAudio()">Begin</button>
 		</div>
 	</body>
