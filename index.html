@@ -3,9 +3,13 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Lightwave - Immerse the Crowd</title>
+		<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+		<link rel="stylesheet" href="toggle.css">
 		<style>
+			*, *::before, *::after { box-sizing: border-box; }
 			body {
-				background: black;
+				background: white;
+ 				color: #3C4145;
 				overflow: hidden;
 				margin: 0;
 			}
@@ -14,13 +18,56 @@
 				height: 100%;
 				margin: 0px;
 			}
+ 			button {
+				border: none;
+				background: none;
+				position: fixed;
+ 				font-family: 'Montserrat', sans-serif;
+				font-size: 72px;
+ 				top: calc(50% - 46px);
+ 				left: calc(50% - 116px);
+			}
+			.logo {
+				fill: #3C4145;
+ 				font-family: 'Montserrat', sans-serif;
+				font-size: 36px;
+				position: fixed;
+				top: 20px;
+				left: 20px;
+			}
+ 			.logo div {
+				display: inline-block;
+				margin-bottom: 20px;
+				vertical-align: 20px;
+			 }
+			.darkmode-toggle {
+				position: fixed;
+ 				top: 20px;
+				right: 20px;
+			}
 		</style>
 		<script src="audio.js"></script>
+		<script src="toggle.js"></script>
 		<script src="visualization.js"></script>
 		<script src="index.js"></script>
 	</head>
 
 	<body>
+		<div class="logo">
+			<svg width="88px" height="83px" viewBox="0 0 88 83">
+				<rect class="logo-rectangle" x="0" y="0" width="8" height="66"></rect>
+				<rect class="logo-rectangle" x="40" y="0" width="8" height="66"></rect>
+				<rect class="logo-rectangle" x="70" y="0" width="8" height="66"></rect>
+				<rect class="logo-rectangle" x="80" y="0" width="8" height="66"></rect>
+				<rect class="logo-rectangle" x="60" y="17" width="8" height="66"></rect>
+				<rect class="logo-rectangle" x="10" y="0" width="8" height="66"></rect>
+				<rect class="logo-rectangle" x="20" y="17" width="8" height="49"></rect>
+				<rect class="logo-rectangle" x="30" y="17" width="8" height="49"></rect>
+				<rect class="logo-rectangle" x="50" y="17" width="8" height="49"></rect>
+			</svg>
+			<div>LiveLight</div>
+		</div>
+
 		<div class="canvas-container">
 			<canvas id="screenshot-rgb" ></canvas>
 		</div>
@@ -30,8 +77,16 @@
 		</div>
 		<!-- <img style="display: none;" id="screenshot-img" src=""> -->
 		<canvas style="display: none;" id="screenshot-canvas"></canvas>
-		<div id="resume-button" style="position: fixed; top: 0; display: none;">
-			<button onclick="resumeAudio()">Resume</button>
+		<div class="darkmode-toggle toggle toggle--daynight">
+			<input type="checkbox" id="toggle--daynight" class="toggle--checkbox" checked
+			 	onchange='toggleDarkMode()'>
+			<label class="toggle--btn" for="toggle--daynight">
+				<span class="toggle--feature"></span>
+			</label>
+		</div>
+
+		<div id="resume-toggle" style="position: fixed; top: 0; display: none;">
+			<button onclick="resumeAudio()">Begin</button>
 		</div>
 	</body>
 </html>

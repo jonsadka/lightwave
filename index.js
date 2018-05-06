@@ -31,7 +31,7 @@ window.onload = () => {
   // browsers will require user interaction to enable this restart
   // the audio recording
   if (audioContext.state === 'suspended') {
-    document.querySelector('#resume-button').style.display = 'inherit';
+    document.querySelector('#resume-toggle').style.display = 'inherit';
   } else {
     getStream(streamOptions);
   }
@@ -100,7 +100,7 @@ function handleStreamSuccess(mediaStream) {
 }
 
 function resumeAudio() {
-  document.querySelector('#resume-button').style.display = 'none';
+  document.querySelector('#resume-toggle').style.display = 'none';
   audioContext.resume();
   getStream(streamOptions);
 }
