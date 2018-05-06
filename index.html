@@ -25,7 +25,8 @@
 			<canvas id="screenshot-rgb" ></canvas>
 		</div>
 		<div style="position: fixed; top: 0; opacity: 0;">
-			<video id="screenshot-video" autoplay></video>
+			<!-- playsinline and muted are required because of a hack for working on iOS -->
+			<video id="screenshot-video" autoplay playsinline muted></video>
 		</div>
 		<!-- <img style="display: none;" id="screenshot-img" src=""> -->
 		<canvas style="display: none;" id="screenshot-canvas"></canvas>

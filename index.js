@@ -10,6 +10,13 @@ let rGBFIFO = new Array(10).fill(defaultRGB);
 const multiplier = 1;
 const fps = 64 * multiplier * 2;
 
+const streamOptions = {
+  audio: true,
+  video: {
+    facingMode: "environment"
+  }
+};
+
 window.onload = () => {
   // Get the contexts
   audioContext = new(window.AudioContext || window.webkitAudioContext)();
@@ -25,16 +32,9 @@ window.onload = () => {
   // the audio recording
   if (audioContext.state === 'suspended') {
     document.querySelector('#resume-button').style.display = 'inherit';
+  } else {
+    getStream(streamOptions);
   }
-
-  const streamOptions = {
-    audio: true,
-    video: {
-      facingMode: "environment"
-    }
-  };
-
-  getStream(streamOptions);
 }
 
 function getStream(streamOptions) {
@@ -102,4 +102,5 @@ function handleStreamSuccess(mediaStream) {
 function resumeAudio() {
   document.querySelector('#resume-button').style.display = 'none';
   audioContext.resume();
+  getStream(streamOptions);
 }
