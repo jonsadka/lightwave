@@ -54,7 +54,6 @@ function renderRectColor() {
     // draw a bar based on the current volume
     canvasRGBContext.fillRect(i * width / rGBFIFO.length, 0, width / rGBFIFO.length, height);
   }
-
 }
 
 function getAverageRGB(width, height) {
