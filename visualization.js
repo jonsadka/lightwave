@@ -35,7 +35,12 @@ function updateVisualizationSize() {
 }
 
 function updateRGBFIFO(RGB, volume) {
-  rGBFIFO.push({...RGB, volume});
+  rGBFIFO.push({
+    r: RGB.r,
+    g: RGB.g,
+    b: RGB.b,
+    volume
+  });
   rGBFIFO.shift();
 }
 
