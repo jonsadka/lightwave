@@ -148,14 +148,14 @@
 }
 
 .toggle--daynight .toggle--checkbox:checked+.toggle--btn {
-  background-color: #9ee3fb;
-  border: 5px solid #86c3d7;
+  background-color: white;
+  border: 5px solid #3C4145;
 }
 
 .toggle--daynight .toggle--checkbox:checked+.toggle--btn:before {
   left: 55px;
-  background-color: #ffdf6d;
-  border: 5px solid #e1c348;
+  background-color: #F7F7F7;
+  border: 5px solid #d3d3d3;
 }
 
 .toggle--daynight .toggle--checkbox:checked+.toggle--btn:after {
