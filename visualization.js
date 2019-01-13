@@ -22,7 +22,7 @@ function updateVisualizationSize() {
   canvasRGBVContext.height = windowHeight;
 
   const currentFIFOLength = rGBFIFO.length;
-  const newFIFOLength = Math.floor(windowWidth / 60 * multiplier);
+  const newFIFOLength = Math.floor((windowWidth / 60) * multiplier);
   if (newFIFOLength > currentFIFOLength) {
     for (let i = 0; i < newFIFOLength - currentFIFOLength; i++) {
       rGBFIFO.unshift(rGBFIFO[0]);
@@ -39,7 +39,7 @@ function updateRGBFIFO(RGB, volume) {
     r: RGB.r,
     g: RGB.g,
     b: RGB.b,
-    volume
+    volume,
   });
   rGBFIFO.shift();
 }
@@ -51,7 +51,6 @@ function renderRectColor() {
   // clear the background
   canvasRGBVContext.clearRect(0, 0, width, height);
   for (let i = 0; i < rGBFIFO.length; i++) {
-
     const RGBV = rGBFIFO[i] || {};
     const barWidth = width / rGBFIFO.length;
     const barX = i * barWidth;
@@ -82,7 +81,7 @@ function getAverageRGB(width, height) {
   let RGB = {
     r: 0,
     g: 0,
-    b: 0
+    b: 0,
   };
   while ((i += blockSize * 4) < data.data.length) {
     ++count;

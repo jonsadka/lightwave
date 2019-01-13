@@ -13,13 +13,13 @@ const fps = 64 * multiplier * 2;
 const streamOptions = {
   audio: true,
   video: {
-    facingMode: "environment"
-  }
+    facingMode: 'environment',
+  },
 };
 
 window.onload = () => {
   // Get the contexts
-  audioContext = new(window.AudioContext || window.webkitAudioContext)();
+  audioContext = new (window.AudioContext || window.webkitAudioContext)();
   canvasRGB = document.querySelector('#screenshot-rgb');
   canvasRGBVContext = canvasRGB.getContext('2d');
   canvas = document.querySelector('#screenshot-canvas');
@@ -35,7 +35,7 @@ window.onload = () => {
   } else {
     getStream(streamOptions);
   }
-}
+};
 
 function getStream(streamOptions) {
   // Older browsers might not implement mediaDevices at all, so we set an empty object first
@@ -47,31 +47,36 @@ function getStream(streamOptions) {
   // with getUserMedia as it would overwrite existing properties.
   // Here, we will just add the getUserMedia property if it's missing.
   if (navigator.mediaDevices.getUserMedia === undefined) {
-    navigator.mediaDevices.getUserMedia = (constraints) => {
-
+    navigator.mediaDevices.getUserMedia = constraints => {
       // First get ahold of the legacy getUserMedia, if present
-      const getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+      const getUserMedia =
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia;
 
       // Some browsers just don't implement it - return a rejected promise with an error
       // to keep a consistent interface
       if (!getUserMedia) {
-        return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
+        return Promise.reject(
+          new Error('getUserMedia is not implemented in this browser')
+        );
       }
 
       // Otherwise, wrap the call to the old navigator.getUserMedia with a Promise
       return new Promise((resolve, reject) => {
         getUserMedia.call(navigator, constraints, resolve, reject);
       });
-    }
+    };
   }
 
-  navigator.mediaDevices.getUserMedia(streamOptions)
+  navigator.mediaDevices
+    .getUserMedia(streamOptions)
     .then(handleStreamSuccess)
     .catch(handleStreamError);
 }
 
 function handleStreamError(err) {
-  console.log(err.name + ": " + err.message);
+  console.log(err.name + ': ' + err.message);
 }
 
 // https: //developer.mozilla.org/en-US/docs/Web/API/MediaStream
@@ -80,7 +85,7 @@ function handleStreamSuccess(mediaStream) {
   //////// VIDEO
   //
   // Older browsers may not have srcObject
-  if ("srcObject" in video) {
+  if ('srcObject' in video) {
     video.srcObject = mediaStream;
   } else {
     // Avoid using this in new browsers, as it is going away.
